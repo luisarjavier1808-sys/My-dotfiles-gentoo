@@ -3,6 +3,12 @@
 echo "=== Starting Gentoo Dotfiles Installation ==="
 echo "This can take a lot of time"
 
+# 0. Ensure the repo is downloaded if running via curl
+if [ ! -d "$HOME/dotfiles" ]; then
+    echo"Downloading repo"
+    git clone https://github.com/luisarjavier2102-sys/My-dotfiles-gentoo.git ~/dotfiles
+fi
+
 # 1. Install flaggie first to handle configuration easily
 echo "[1/4] Installing flaggie for USE flag management..."
 sudo emerge --ask=n app-portage/flaggie
@@ -20,7 +26,7 @@ sudo emerge --ask=n x11-wm/i3 x11-misc/polybar x11-misc/picom x11-misc/rofi x11-
 echo "[4/4] Creating symlinks with GNU Stow..."
 mkdir -p ~/.config
 cd ~/dotfiles
-stow i3 picom polybar rofi
+stow --adopt i3 picom polybar rofi
 
 echo ""
 echo "=== Installation complete! Everything is linked and configured successfully ==="
